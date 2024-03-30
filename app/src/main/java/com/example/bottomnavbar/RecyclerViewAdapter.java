@@ -1,58 +1,57 @@
-package com.example.listsiswa10pplg1;
+package com.example.bottomnavbar;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
 
-    private final List<DataSiswa> mData;
-    private final LayoutInflater mInflater;
-    private Context mContext;
+    private List<DataSiswa> mData;
+    private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
+    Context context;
 
-    // data is passed into the constructor
     RecyclerViewAdapter(Context context, List<DataSiswa> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
-        this.mContext = context; // Assign the context passed to the adapter
+        this.context = context;
     }
 
-
-    // inflates the row layout from xml when needed
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.row_recycler_view, parent, false);
         return new ViewHolder(view);
+
     }
 
-    // binds the data to the TextView in each row
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        DataSiswa Siswa = mData.get(position);
-        holder.txt_Siswa.setText(Siswa.getNama());
-        holder.txt_NoAbsen.setText(Siswa.getNoAbsen());
-        int profileResourceId = Siswa.getProfile();
-        holder.img_Profile.setImageResource(profileResourceId);
+    public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder holder, int position) {
+        DataSiswa dataSiswa = mData.get(position);
+        holder.txt_Siswa.setText(dataSiswa.getNama());
+        holder.txt_NoAbsen.setText(dataSiswa.getNoAbsen());
+        Glide.with(context)
+                .load(mData.get(position).getProfileUrl())
+                .placeholder(R.drawable.avatar)
+                .error(R.drawable.avatar)
+                .into(holder.img_Profile);
     }
 
-    // total number of rows
     @Override
     public int getItemCount() {
         return mData.size();
     }
 
-
-    // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView txt_Siswa;
         TextView txt_NoAbsen;
@@ -63,21 +62,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             txt_Siswa = itemView.findViewById(R.id.txt_NamaSiswa);
             txt_NoAbsen = itemView.findViewById(R.id.txt_NoAbsen);
             img_Profile = itemView.findViewById(R.id.img_Profile);
+
+            // Set click listener for the whole item view (card)
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
+            if (mClickListener != null) {
+                mClickListener.onItemClick(view, getAdapterPosition());
+            }
         }
     }
 
+
     // convenience method for getting data at click position
-    /*
     String getItem(int id) {
-        return mData.get(id);
+        return  "";
     }
-    */
 
     // allows clicks events to be caught
     void setClickListener(ItemClickListener itemClickListener) {
@@ -88,4 +90,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public interface ItemClickListener {
         void onItemClick(View view, int position);
     }
+
+
+
 }

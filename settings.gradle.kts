@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ListSiswa10PPLG1"
+rootProject.name = "bottomnavbar"
 include(":app")
  

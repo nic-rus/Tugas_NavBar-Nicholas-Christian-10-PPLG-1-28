@@ -2,12 +2,14 @@ plugins {
     id("com.android.application")
 }
 
+val bundleID = "com.example.bottomnavbar"
+
 android {
-    namespace = "com.example.listsiswa10pplg1"
+    namespace = "com.example.bottomnavbar"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.listsiswa10pplg1"
+        applicationId = "com.example.bottomnavbar"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -33,6 +35,7 @@ android {
 
 dependencies {
     implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
     // For control over item selection of both touch and mouse driven selection
     implementation("androidx.recyclerview:recyclerview-selection:1.1.0")
     implementation("androidx.appcompat:appcompat:1.6.1")

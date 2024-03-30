@@ -23,4 +23,11 @@
         </activity>
     </application>
 
+    package="com.example.listsiswa10pplg1">
+
+    <!-- Other permissions and components -->
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Other configurations -->
 </manifest>
